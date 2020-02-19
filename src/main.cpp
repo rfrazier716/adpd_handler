@@ -1,5 +1,7 @@
 #include "mbed.h"
 
+using namespace mbed;
+
 DigitalOut myled(LED1);
 
 int main() {
