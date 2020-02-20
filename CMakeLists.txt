@@ -21,7 +21,9 @@ SET(PROJECT_NAME "adpd_handler")
 MESSAGE("Build Type is ${CMAKE_BUILD_TYPE}")
 
 # here starts the project
-PROJECT("${PROJECT_NAME}" C CXX ASM)
+PROJECT("${PROJECT_NAME}" 
+        VERSION 0.0
+        LANGUAGES C CXX ASM)
 
 # uncomment below to have a verbose build process
 #SET(CMAKE_VERBOSE_MAKEFILE ON)

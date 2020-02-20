@@ -2,6 +2,11 @@
 
 mbed::Serial comport(USBTX, USBRX); //!< Serial port object, for the F401RE this is connected to the onboard usb port
 
+int adpd::initUART()
+{
+	return 0;
+}
+
 int adpd::comment(const char* string)
 {
 	int error = comport.printf(":%s\r\n",string);

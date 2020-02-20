@@ -6,6 +6,7 @@
 //TODO: This will hold the abstractions for reading and writing registers etc
 namespace adpd
 {
+    int initUART();
     /**
     * Prints a comment to the console
     *
