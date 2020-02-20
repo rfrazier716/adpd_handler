@@ -1,16 +1,9 @@
-#include "mbed.h"
+#include "adpdhandler/hal_adpd.hpp"
 
-using namespace mbed;
-
-DigitalOut myled(LED1);
-
-int main() {
-    #ifdef MBED_DEBUG
-    while(1) {
-        myled = 1;
-        wait(1.0);
-        myled = 0;
-        wait(1.0);
-    }
-    #endif
+int main() 
+{
+	adpd::log("Hello World");
+	adpd::debug("This is a debug message");
+	adpd::comment("This is a comment");
+	return 0;
 }

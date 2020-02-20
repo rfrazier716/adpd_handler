@@ -13,16 +13,12 @@ SET(CMAKE_C_COMPILER      "arm-none-eabi-gcc")
 SET(CMAKE_CXX_COMPILER    "arm-none-eabi-g++")
 SET(ELF2BIN               "arm-none-eabi-objcopy")
 
-# set the project name
+# set the project names
 SET(PROJECT_NAME "adpd_handler")
 
 
 # if the environment does not specify build type, set to Debug
-IF(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Debug"
-        CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel."
-        FORCE)
-ENDIF()
+MESSAGE("Build Type is ${CMAKE_BUILD_TYPE}")
 
 # here starts the project
 PROJECT("${PROJECT_NAME}" C CXX ASM)
@@ -103,11 +99,12 @@ INCLUDE_DIRECTORIES(
   include/mbed2/cmsis/TARGET_CORTEX_M
   include/mbed2/cmsis
   include/mbed2
+  include
   )
 
 # executable mbed2Lib_F401RE
 ADD_EXECUTABLE("${PROJECT_NAME}" ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/mbedDev_F401RE.a)
+TARGET_LINK_LIBRARIES("${PROJECT_NAME}" ${CMAKE_CURRENT_SOURCE_DIR}/lib/mbedDev_F401RE.a)
 
 # SET_TARGET_PROPERTIES(mbed2Lib_F401RE PROPERTIES ENABLE_EXPORTS 1)
 # add syslibs dependencies to create the correct linker order
@@ -129,6 +126,28 @@ add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E echo "-- built: $<TARGET_FILE:${PROJECT_NAME}>.bin"
                   )
 
+# If it's a build release copy files to the bin directory
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
+
+                       COMMAND ${CMAKE_COMMAND} -E copy
+                       $<TARGET_FILE:${PROJECT_NAME}>.bin 
+                       ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PROJECT_NAME}.bin
+
+                       COMMAND ${CMAKE_COMMAND} -E echo "-- Copied: $<TARGET_FILE:${PROJECT_NAME}>.bin to /bin"
+                      )
+
+    add_custom_command(TARGET "${PROJECT_NAME}" POST_BUILD
+
+                       COMMAND ${CMAKE_COMMAND} -E copy
+                       $<TARGET_FILE:${PROJECT_NAME}>.hex 
+                       ${CMAKE_CURRENT_SOURCE_DIR}/bin/${PROJECT_NAME}.hex
+
+                       COMMAND ${CMAKE_COMMAND} -E echo "-- Copied: $<TARGET_FILE:${PROJECT_NAME}>.hex to /bin"
+                      )
+endif(CMAKE_BUILD_TYPE STREQUAL "Release")
+
+# Add project.cmake and test.cmake
 IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/project.cmake)
   INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/project.cmake)
 ELSE()
