@@ -4,12 +4,13 @@
       "name": "ARMCC-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
-      //"inheritEnvironments": [ "msvc_x64" ],
       "buildRoot": "${projectDir}\\build\\${name}",
       "installRoot": "${projectDir}\\build\\install\\${name}",
-      "cmakeCommandArgs": "",
+      "cmakeCommandArgs": "-DCOMPILE_TYPE=\"ARMCC\"",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
+      "inheritEnvironments": [],
+      "variables": []
     },
     {
       "name": "ARMCC-Release",
@@ -17,11 +18,23 @@
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\build\\${name}",
       "installRoot": "${projectDir}\\build\\install\\${name}",
-      "cmakeCommandArgs": "",
+      "cmakeCommandArgs": "-DCOMPILE_TYPE=\"ARMCC\"",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
-      //"inheritEnvironments": [ "msvc_arm" ],
-      "variables": [      ]
+      "variables": [],
+      "inheritEnvironments": []
+    },
+    {
+      "name": "Unit Tests",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\build\\${name}",
+      "installRoot": "${projectDir}\\build\\install\\${name}",
+      "cmakeCommandArgs": "-DCOMPILE_TYPE=UNIT_TESTS",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "msvc_x86" ],
+      "variables": []
     }
   ]
 }
