@@ -1,9 +1,11 @@
- SET(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/library_tests/src")
+ SET(TEST_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/library_tests/src")
 
  INCLUDE_DIRECTORIES(
-    include/adpdhandler
+    include
     test/library_tests
     )
+
+add_library(buffers "src/ring_buffer.cpp")
 
 # ---Tests---
 enable_testing() # enable testing for ctest integration
@@ -14,6 +16,6 @@ target_include_directories(Catch INTERFACE "test")
 add_library(catch_main "test/library_tests/catch_main.cpp")
 
 
-add_executable(testRingBuffer "${SOURCE_DIR}/ring_buffer.cpp")
-target_link_libraries(testRingBuffer Catch catch_main)
+add_executable(testRingBuffer "${TEST_SOURCE_DIR}/test_ring_buffer.cpp")
+target_link_libraries(testRingBuffer Catch catch_main buffers)
 add_test(NAME RingBuffer COMMAND testRingBuffer)
