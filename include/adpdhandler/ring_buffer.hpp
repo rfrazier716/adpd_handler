@@ -7,9 +7,9 @@
 namespace adpd
 {	
 	enum class bufferStatus {
-		BUFFER_OK,
-		BUFFER_FULL,
-		BUFFER_EMPTY
+		BUFFER_OK=0,
+		BUFFER_FULL=1,
+		BUFFER_EMPTY=2
 	};
 
 	/**
@@ -24,9 +24,12 @@ namespace adpd
 		uint8_t readIndex = 0; // index of where to start reading data from the buffer
 	};
 
+	bufferStatus getBufferStatus(const circBuffer& buffer);
+	bool bufferEmpty(const circBuffer& buffer);
+	bool bufferFull(const circBuffer& buffer);
+
 	bufferStatus writeBuffer(circBuffer& buffer, const char* message);
-	
-	//bufferStatus readBuffer(&circBuffer, &output, constant uint8_t numChars);
+	bufferStatus readBuffer(circBuffer & buffer, char* message, const uint8_t numChars);
 	//bufferStatus readLineBuffer(&circBuffer, &output);
 }
 #endif
