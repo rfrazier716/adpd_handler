@@ -1,6 +1,10 @@
  SET(TEST_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/library_tests/src")
 
- INCLUDE_DIRECTORIES(
+ADD_DEFINITIONS(
+    -DMSVC_X86
+    )
+
+INCLUDE_DIRECTORIES(
     include
     test/library_tests
     )

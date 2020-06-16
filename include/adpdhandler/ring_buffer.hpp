@@ -1,8 +1,12 @@
 #ifndef _RING_BUFFER
 #define _RING_BUFFER
 
-#define BUFFER_SIZE 255
+#define BUFFER_SIZE 10
+
+#ifdef MSVC_X86
+//If we're compiling the program for unittests 
 #include <cstdint>
+#endif
 
 namespace adpd
 {	
@@ -13,7 +17,7 @@ namespace adpd
 	};
 
 	/**
-	* A circular Buffer with 255 elements
+	* A circular Buffer with BUFFER_SIZE elements
 	*
 	*
 	*/
@@ -30,6 +34,7 @@ namespace adpd
 
 	bufferStatus writeBuffer(circBuffer& buffer, const char* message);
 	bufferStatus readBuffer(circBuffer & buffer, char* message, const uint8_t numChars);
-	//bufferStatus readLineBuffer(&circBuffer, &output);
+	//assumes a linefeed is \r\n
+	bufferStatus readLineBuffer(circBuffer & buffer, char* output, int maxItemsToPull=BUFFER_SIZE);
 }
 #endif

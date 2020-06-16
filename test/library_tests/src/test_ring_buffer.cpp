@@ -77,12 +77,14 @@ SCENARIO("Writing to a Full Buffer", "[RingBuffer]")
 			message[j] = 'Z';
 		}
 		message[BUFFER_SIZE - 2] = 'X'; //The final index is X to confirm it was written
+		message[BUFFER_SIZE - 1] = '\0'; //Null terminator
 		THEN("The Message should write without error")
 		{
 			auto status = writeBuffer(buffer, message);
 			REQUIRE(status == bufferStatus::BUFFER_OK);
 			AND_THEN("If we try to write more to the buffer we get BUFFER_FULL")
 			{
+				REQUIRE(getBufferStatus(buffer) == bufferStatus::BUFFER_FULL);
 				REQUIRE(writeBuffer(buffer, message) == bufferStatus::BUFFER_FULL);
 			}
 		}
